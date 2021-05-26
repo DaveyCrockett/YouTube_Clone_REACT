@@ -14,11 +14,10 @@ class App extends Component {
     }
 
     async get_SearchResults(search_query) {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?q=${search_query}&key=${process.env.REACT_APP_YOUTUBE_API}`)
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
         this.setState({
             search_results: response.data
         })
-        console.log(this.state.search_results)
      }
      
     renderSearchResults(){
@@ -40,7 +39,6 @@ class App extends Component {
             {this.state.search_results != null &&
             <table>
                 <tbody>
-                {console.log(this.state.search_results.items)}
                     {renderSearchResults()}
                 </tbody>
             </table>

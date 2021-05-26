@@ -9,9 +9,9 @@ class Video extends Component {
     render() { 
         return ( 
             <div>
-                <iframe id="ytplayer" type="text/html" width="640" height="360"
+                <iframe title={this.state.video_title} id="ytplayer" type="text/html" width="640" height="360"
                 src={`https://www.youtube.com/embed/${this.state.video_id}`}
-                frameborder="0"></iframe>
+                frameBorder="0"></iframe>
                 <h1>{this.state.video_title}</h1>
                 <p>{this.state.video_description}</p>
             </div>
