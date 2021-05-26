@@ -19,9 +19,9 @@ class SearchBar extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const search_query = this.state.search_query
-        this.props.searchSongs(search_query);
+        this.props.get_SearchResults(search_query);
         this.setState({
-            search_term: ''
+            search_query: ''
         })
     }
 
