@@ -10,11 +10,12 @@ class App extends Component {
         super(props)
         this.state = {
             search_results: null,
+            selected_video: null,
         }
     }
 
     async get_SearchResults(search_query) {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
         this.setState({
             search_results: response.data
         })
@@ -23,9 +24,14 @@ class App extends Component {
     renderSearchResults(){
         return (
             this.state.search_results.items.map((item) =>
-            <SearchResults item={item} />
+            <SearchResults item={item} select_video={this.select_video.bind(this)} />
             )
         )
+    }
+
+    select_video(video_id){
+        this.state.selected_video = video_id;
+        console.log(this.state.selected_video);
     }
 
     render() {
@@ -42,8 +48,7 @@ class App extends Component {
                     {renderSearchResults()}
                 </tbody>
             </table>
-            }
-            <Video />
+            }       
             </div>
         );
     }
