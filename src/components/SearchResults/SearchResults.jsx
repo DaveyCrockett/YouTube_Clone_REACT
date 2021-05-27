@@ -3,9 +3,8 @@ import React from 'react';
 function SearchResults(props){
     return (
         <tr>
-            <td>{props.item.id.videoId}</td>
-            <td>{props.item.snippet.thumbnails.default.url}</td>
-            <td>{props.item.snippet.title }</td>
+            <td><img src={props.item.snippet.thumbnails.default.url} height={props.item.snippet.thumbnails.default.height} width={props.item.snippet.thumbnails.default.width} /></td>
+            <td>{props.item.snippet.title}</td>
         </tr>
     )
 }
