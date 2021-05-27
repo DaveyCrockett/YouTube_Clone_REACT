@@ -10,14 +10,15 @@ class App extends Component {
         super(props)
         this.state = {
             search_results: null,
-            selected_video_id: null,
+            selected_video_object: null,
         }
     }
 
     async get_SearchResults(search_query) {
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
         this.setState({
-            search_results: response.data
+            search_results: response.data,
+            selected_video_object: null,
         })
      }
      
@@ -29,9 +30,10 @@ class App extends Component {
         )
     }
 
-    select_video(video_id){
+    select_video(video_object){
         this.setState({
-            selected_video_id: video_id
+            search_results: null,
+            selected_video_object: video_object,
         })
     }
 
@@ -54,8 +56,8 @@ class App extends Component {
                 </tbody>
             </table>
             }
-            {this.state.selected_video_id != null &&
-            <Video video_id={this.state.selected_video_id} />
+            {this.state.selected_video_object != null &&
+            <Video video_object={this.state.selected_video_object} />
             }        
             </div>
         );

@@ -11,11 +11,11 @@ class Video extends Component {
     render() { 
         return ( 
             <div>
-                <iframe title={this.state.video_title} id="ytplayer" type="text/html" width="640" height="360"
-                src={`https://www.youtube.com/embed/${this.props.video_id}`}
+                <iframe title={this.props.video_object.snippet.title} id="ytplayer" type="text/html" width="640" height="360"
+                src={`https://www.youtube.com/embed/${this.props.video_object.id.videoId}`}
                 frameBorder="0"></iframe>
-                <h1>{this.state.video_title}</h1>
-                <p>{this.state.video_description}</p>
+                <h1>{this.props.video_object.snippet.title}</h1>
+                <p>{this.props.video_object.snippet.description}</p>
             </div>
          );
     }
