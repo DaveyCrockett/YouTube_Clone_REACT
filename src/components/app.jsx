@@ -10,7 +10,7 @@ class App extends Component {
         super(props)
         this.state = {
             search_results: null,
-            selected_video: null,
+            selected_video_id: null,
         }
     }
 
@@ -30,8 +30,13 @@ class App extends Component {
     }
 
     select_video(video_id){
-        this.state.selected_video = video_id;
-        console.log(this.state.selected_video);
+        this.setState({
+            selected_video_id: video_id
+        })
+    }
+
+    view_video(){
+        <Video />
     }
 
     render() {
@@ -48,7 +53,10 @@ class App extends Component {
                     {renderSearchResults()}
                 </tbody>
             </table>
-            }       
+            }
+            {this.state.selected_video_id != null &&
+            <Video video_id={this.state.selected_video_id} />
+            }        
             </div>
         );
     }
