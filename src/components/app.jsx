@@ -3,7 +3,7 @@ import axios from 'axios';
 import SearchBar from './SearchBar/SearchBar';
 import Video from './Video/Video';
 import SearchResults from './SearchResults/SearchResults';
-import RelatedVideos from './RelatedVideos/RelatedVideos'
+import RelatedVideos from './RelatedVideos/RelatedVideos';
 
 
 class App extends Component {
@@ -40,8 +40,6 @@ class App extends Component {
      }
 
     renderRelatedVideos(){
-        this.get_RelatedVideos()
-        console.log(this.state.related_videos)
         return(
             this.state.related_videos.item.map((item) =>
             <RelatedVideos item={item} select_video={this.select_video.bind(this)} />
@@ -74,6 +72,8 @@ class App extends Component {
             {this.state.selected_video_object != null &&
             <div>
             <Video video_object={this.state.selected_video_object} />
+            {this.get_RelatedVideos}
+            {this.renderRelatedVideos}
             </div>
             }
             </div>
