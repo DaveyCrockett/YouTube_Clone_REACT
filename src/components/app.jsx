@@ -3,7 +3,9 @@ import axios from 'axios';
 import SearchBar from './SearchBar/SearchBar';
 import Video from './Video/Video';
 import SearchResults from './SearchResults/SearchResults';
-import RelatedVideos from './RelatedVideos/RelatedVideos'
+import RelatedVideos from './RelatedVideos/RelatedVideos';
+import CommentsBar from './Comments/postComments';
+import Comments from './Comments/getComments';
 
 
 class App extends Component {
@@ -30,6 +32,13 @@ class App extends Component {
 
     }
 
+    renderRelatedVideos(){
+        return(
+            this.state.related_videos.item.map((item) =>
+            <RelatedVideos item={item} select_video={this.select_video.bind(this)} />
+            )
+        )
+        }
     async getRelatedVideos(videoId) {
         try{
             let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
@@ -54,18 +63,22 @@ class App extends Component {
     render() {
         return (
             <div>
-                <h1>Our React App Using a Component</h1>          
-                <SearchBar get_SearchResults={this.get_SearchResults.bind(this)} />
-                
-                {this.state.search_results != null &&
-                    <SearchResults search_results={this.state.search_results} select_video={this.select_video.bind(this)} />
-                }
-                {this.state.selected_video_object != null &&
-                    <div>
+            
+            <h1>Our React App Using a Component</h1>          
+            <SearchBar get_SearchResults={this.get_SearchResults.bind(this)} />
+            
+            {this.state.search_results != null &&
+            <SearchResults search_results={this.state.search_results} select_video={this.select_video.bind(this)} />
+            }
+            {this.state.selected_video_object != null &&
+            <div>
                         <Video video_object={this.state.selected_video_object} />
                         <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} />
-                    </div>
-                }
+            
+            <CommentsBar />
+            <Comments />
+            </div>
+            }
             </div>
         );
     }
