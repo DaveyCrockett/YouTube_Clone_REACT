@@ -74,17 +74,18 @@ class App extends Component {
                     </div>
                     <div className="row">
                         <CommentsBar />
-                        <table>
-                            <tbody>
-                                <Comments />
-                            </tbody>
-                        </table>
-                    </div>
+                <table>
+                    <tbody>
+                        <Comments videoId={this.state.selected_video_object.id.videoId} />
+                    </tbody>
+                </table>
                 </div>
-                }
+
             </div>
-        );
     }
+    </div>
+        );
+    };
 }
 
 export default App;
