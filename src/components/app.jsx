@@ -18,28 +18,25 @@ class App extends Component {
         }
     }
 
+
+
     async get_SearchResults(search_query) {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`).catch(err => {console.log(err);})
+        const pointerToThis = this;
+        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
+        .catch(err => {console.log(err);})
         this.setState({
             search_results: response.data,
             selected_video_object: null,
-        })
-     }
-     
-    renderSearchResults(){
-        return (
-            this.state.search_results.items.map((item) =>
-            <SearchResults item={item} select_video={this.select_video.bind(this)} />
-            )
-        )
+            related_videos: null,
+        });
+        console.log(pointerToThis)
     }
 
-    async get_RelatedVideos() {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${this.state.selected_video_object.id.videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
+    addSearchResults = (results) => {
         this.setState({
-            related_videos: response.data,
+            search_results: results
         })
-     }
+    }
 
     renderRelatedVideos(){
         return(
@@ -47,17 +44,31 @@ class App extends Component {
             <RelatedVideos item={item} select_video={this.select_video.bind(this)} />
             )
         )
+        }
+    async getRelatedVideos(videoId) {
+        await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
+        .then((response) => {
+            console.log(response)
+            this.setState({related_videos: response.data})
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
-    select_video(video_object){
+    select_video(video_object) {
+        this.getRelatedVideos(video_object.id.videoId)
         this.setState({
             search_results: null,
             selected_video_object: video_object,
         })
+        console.log('search',this.state.search_results)
+        console.log('selected',this.state.selected_video_object)
+        console.log('related',this.state.related_videos)
+
     }
 
     render() {
-        const renderSearchResults = this.renderSearchResults.bind(this);
         return (
             <div>
             
@@ -65,17 +76,14 @@ class App extends Component {
             <SearchBar get_SearchResults={this.get_SearchResults.bind(this)} />
             
             {this.state.search_results != null &&
-            <table>
-                <tbody>
-                    {this.renderSearchResults()}
-                </tbody>
-            </table>
+            <SearchResults search_results={this.state.search_results} select_video={this.select_video.bind(this)} />
             }
             {this.state.selected_video_object != null &&
             <div>
             <Video video_object={this.state.selected_video_object} />
             {this.get_RelatedVideos}
             {this.renderRelatedVideos}
+            {/* <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} /> */ }
             </div>
             }
             <CommentsBar />
