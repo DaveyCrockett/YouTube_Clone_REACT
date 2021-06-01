@@ -70,7 +70,7 @@ class App extends Component {
                         <CommentsBar />
             <table>
                 <tbody>
-                    <Comments />
+                    <Comments videoId={this.state.selected_video_object.id.videoId} />
                 </tbody>
             </table>
             </div>
