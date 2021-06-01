@@ -16,17 +16,13 @@ class App extends Component {
         }
     }
 
-
-
     async get_SearchResults(search_query) {
-        const pointerToThis = this;
         let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
         .catch(err => {console.log(err);})
         this.setState({
             search_results: response.data,
             selected_video_object: null,
             related_videos: null,
-            console.log(pointerToThis)
         });
     }
 
@@ -56,7 +52,6 @@ class App extends Component {
         console.log('search',this.state.search_results)
         console.log('selected',this.state.selected_video_object)
         console.log('related',this.state.related_videos)
-
     }
 
     render() {
@@ -72,7 +67,7 @@ class App extends Component {
             {this.state.selected_video_object != null &&
             <div>
             <Video video_object={this.state.selected_video_object} />
-            {/* <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} /> */ }
+            {/* <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} /> */}
             </div>
             }
             </div>
