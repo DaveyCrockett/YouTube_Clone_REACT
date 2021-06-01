@@ -32,13 +32,6 @@ class App extends Component {
 
     }
 
-    renderRelatedVideos(){
-        return(
-            this.state.related_videos.item.map((item) =>
-            <RelatedVideos item={item} select_video={this.select_video.bind(this)} />
-            )
-        )
-        }
     async getRelatedVideos(videoId) {
         try{
             let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
@@ -74,9 +67,8 @@ class App extends Component {
             <div>
                         <Video video_object={this.state.selected_video_object} />
                         <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} />
-            
-            <CommentsBar />
-            <Comments />
+                        <CommentsBar />
+                        <Comments />
             </div>
             }
             </div>
