@@ -4,6 +4,8 @@ import SearchBar from './SearchBar/SearchBar';
 import Video from './Video/Video';
 import SearchResults from './SearchResults/SearchResults';
 import RelatedVideos from './RelatedVideos/RelatedVideos';
+import CommentsBar from './Comments/postComments';
+import Comments from './Comments/getComments';
 
 
 class App extends Component {
@@ -76,6 +78,8 @@ class App extends Component {
             {this.renderRelatedVideos}
             </div>
             }
+            <CommentsBar />
+            <Comments />
             </div>
         );
     }
