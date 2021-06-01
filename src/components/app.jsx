@@ -19,41 +19,31 @@ class App extends Component {
     }
 
     async get_SearchResults(search_query) {
-        let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`)
-        .catch(err => {console.log(err);})
-        this.setState({
-            search_results: response.data,
-            selected_video_object: null,
-            related_videos: null,
-        });
-    }
-
-    addSearchResults = (results) => {
-        this.setState({
-            search_results: results
-        })
-    }
-
-    renderRelatedVideos(){
-        return(
-            this.state.related_videos.item.map((item) =>
-            <RelatedVideos item={item} select_video={this.select_video.bind(this)} />
-            )
-        )
+        try{
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${search_query}&key=${process.env.REACT_APP_API_KEY}`);
+            this.setState({
+                search_results: response.data,
+                selected_video_object: null,
+                related_videos: null,
+            });
+        } catch (er){
+            console.log('ERROR in get_SearchResults', er)
         }
+
+    }
+
     async getRelatedVideos(videoId) {
-        await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
-        .then((response) => {
+        try{
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
             console.log(response)
             this.setState({related_videos: response.data})
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        } catch (er){
+            console.log('ERROR in getRelatedVideos', er)
+        }
     }
 
-    select_video(video_object) {
-        this.getRelatedVideos(video_object.id.videoId)
+    async select_video(video_object) {
+        await this.getRelatedVideos(video_object.id.videoId)
         this.setState({
             search_results: null,
             selected_video_object: video_object,
@@ -75,18 +65,17 @@ class App extends Component {
             }
             {this.state.selected_video_object != null &&
             <div>
-            <Video video_object={this.state.selected_video_object} />
-            {this.get_RelatedVideos}
-            {this.renderRelatedVideos}
-            {/* <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} /> */ }
-            </div>
-            }
-            <CommentsBar />
+                        <Video video_object={this.state.selected_video_object} />
+                        <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} />
+                        <CommentsBar />
             <table>
                 <tbody>
                     <Comments />
                 </tbody>
             </table>
+            </div>
+            }
+            
             </div>
         );
     }
