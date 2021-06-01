@@ -82,7 +82,11 @@ class App extends Component {
             </div>
             }
             <CommentsBar />
-            <Comments />
+            <table>
+                <tbody>
+                    <Comments />
+                </tbody>
+            </table>
             </div>
         );
     }
