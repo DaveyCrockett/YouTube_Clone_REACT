@@ -34,8 +34,7 @@ class App extends Component {
 
     async getRelatedVideos(videoId) {
         try{
-            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&key=${process.env.REACT_APP_API_KEY}`)
-            console.log(response)
+            let response = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&relatedToVideoId=${videoId}&key=${process.env.REACT_APP_API_KEY}`)
             this.setState({related_videos: response.data})
         } catch (er){
             console.log('ERROR in getRelatedVideos', er)
@@ -45,8 +44,8 @@ class App extends Component {
     async select_video(video_object) {
         await this.getRelatedVideos(video_object.id.videoId)
         this.setState({
-            search_results: null,
             selected_video_object: video_object,
+            search_results: null,
         })
         console.log('search',this.state.search_results)
         console.log('selected',this.state.selected_video_object)
@@ -55,27 +54,34 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-            
-            <h1>Our React App Using a Component</h1>          
-            <SearchBar get_SearchResults={this.get_SearchResults.bind(this)} />
-            
-            {this.state.search_results != null &&
-            <SearchResults search_results={this.state.search_results} select_video={this.select_video.bind(this)} />
-            }
-            {this.state.selected_video_object != null &&
-            <div>
+            <div className="container">
+                <div className="row">
+                    <h1>YouTube Videos</h1>                 
+                    <SearchBar get_SearchResults={this.get_SearchResults.bind(this)} />
+                </div>
+                {this.state.search_results != null &&
+                <div className="row">
+                    <SearchResults search_results={this.state.search_results} select_video={this.select_video.bind(this)} />
+                </div>
+                }
+                {this.state.selected_video_object != null &&
+                <div className="row">
+                    <div className="col">
                         <Video video_object={this.state.selected_video_object} />
-                        <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} />
+                    </div>
+                    <div className="col"> 
+                        <RelatedVideos related_videos={this.state.related_videos} />
+                    </div>
+                    <div className="row">
                         <CommentsBar />
-            <table>
-                <tbody>
-                    <Comments />
-                </tbody>
-            </table>
-            </div>
-            }
-            
+                        <table>
+                            <tbody>
+                                <Comments />
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                }
             </div>
         );
     }

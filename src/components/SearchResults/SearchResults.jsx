@@ -3,19 +3,22 @@ import React from 'react';
 function SearchResults(props){
     return (
         <div>
-            <table>
-                <tbody>
-                {props.search_results.items.map(item => (
-                <tr>
-                    <td><img src={item.snippet.thumbnails.default.url} height={item.snippet.thumbnails.default.height} width={item.snippet.thumbnails.default.width} /></td>
-                    <td>{item.snippet.title}</td>
-                    <td><button type='button' onClick={() => props.select_video(item)}>test</button></td>
-                </tr>
+        {props.search_results.items.map(item => (
+            <div className="card mb-3" style={{"maxWidth":"950px"}}  >
+                <div className="row g-0">
+                    <div className="col-md-4">
+                        <img src={item.snippet.thumbnails.medium.url} alt={item.snippet.title} onClick={() => props.select_video(item)} />
+                    </div>
+                    <div className="col-md-8">
+                        <div className="card-body">
+                            <h5 className="card-title">{item.snippet.title}</h5>
+                            <p className="card-text">{item.snippet.description}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>    
                 ))}
-                </tbody>
-            </table>
         </div>
-
     )
 }
 
