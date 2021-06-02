@@ -70,7 +70,7 @@ class App extends Component {
                         <Video video_object={this.state.selected_video_object} />
                     </div>
                     <div className="col"> 
-                        <RelatedVideos related_videos={this.state.related_videos} />
+                        <RelatedVideos related_videos={this.state.related_videos} select_video={this.select_video.bind(this)} />
                     </div>
                     <div className="row">
                         <CommentsBar videoId={this.state.selected_video_object.id.videoId}/>
