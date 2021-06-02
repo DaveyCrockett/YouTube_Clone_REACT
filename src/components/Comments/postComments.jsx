@@ -5,7 +5,7 @@ class CommentsBar extends Component {
     constructor(props) {
         super(props); 
         this.state = {
-            comments: [],    
+            comments: [],
         }
      }
 
@@ -17,18 +17,17 @@ class CommentsBar extends Component {
 
     
     async PostCommentData() {
-        await axios.post('http://127.0.0.1:8000/comments/', {
-            comments: this.state.comments.comment
-        })
+        const currentComment = {comments: this.state.comments};
+        await axios.post(`http://127.0.0.1:8000/comments/` + this.props.videoId, { currentComment })
         .then(response => this.setState({
             comments: [...this.state.comments, response.data]
         }))
+        
     }
 
     handleSubmit(event) {
         event.preventDefault()
         this.PostCommentData.bind(this)
-            
     }
 
     render() { 

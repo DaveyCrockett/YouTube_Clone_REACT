@@ -6,9 +6,8 @@ class Comments extends Component {
         super(props); 
         this.state = {
             comments: [],
-            videoId: '',
-        }
      }
+    }
     
     componentDidMount() {
         this.renderGetData();
@@ -16,8 +15,7 @@ class Comments extends Component {
      
     renderGetData = async() => {
         try {
-            let response = await axios.get(`http://127.0.0.1:8000/comments/videoId?=${this.props.videoId}`)
-            // This is an object below. Want to use it in .map but it must be an array.
+            let response = await axios.get(`http://127.0.0.1:8000/comments/?videoId=${this.props.videoId}`)
             this.setState({comments: response.data});
         } catch (err) {
             console.log(err);

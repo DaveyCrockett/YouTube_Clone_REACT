@@ -73,7 +73,7 @@ class App extends Component {
                         <RelatedVideos related_videos={this.state.related_videos} />
                     </div>
                     <div className="row">
-                        <CommentsBar />
+                        <CommentsBar videoId={this.state.selected_video_object.id.videoId}/>
                 <table>
                     <tbody>
                         <Comments videoId={this.state.selected_video_object.id.videoId} />
